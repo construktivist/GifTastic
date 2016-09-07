@@ -2,6 +2,16 @@ $(document).ready(function(){
 	var topics = ["rick and morty", "aqua teen hunger force", "the boondocks", "metalocalypse", "venture bros", "robot chicken", "tim and eric", "moral orel"];
 	var $buttons = $("#buttons");
 	var $gifs = $("#gifs");
+	var $form = $("#topic-form")
+
+	$($form).submit(function(e){
+		e.preventDefault();
+		var $button = $("<button class='btn btn-secondary'>");
+		var inputText = $("#topic-input").val();
+		($button).text(inputText);
+		$button.attr("value", inputText);
+		$($buttons).append($button);
+	});
 
 
 	for (var i = 0; i < topics.length; i++){
