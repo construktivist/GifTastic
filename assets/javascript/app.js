@@ -3,6 +3,7 @@ $(document).ready(function(){
 	var $buttons = $("#buttons");
 	var $gifs = $("#gifs");
 	var $form = $("#topic-form")
+	var playback = false;
 
 	$($form).submit(function(e){
 		e.preventDefault();
@@ -35,15 +36,18 @@ $(document).ready(function(){
 			var results = response.data;
 			console.log(results);
 			for(var i = 0; i < results.length; i++){
+				$gifDiv = $("<div>");
 				$img = $("<img>");
+				$p = $("<p>Rating: " + results[i].rating + "</p>")
 				$img.attr("src", results[i].images.fixed_height_small_still.url);
 				$img.attr("data-animated", results[i].images.fixed_height.url);
-				$gifs.prepend($img);
+				$gifDiv.append($img);
+				$gifDiv.append($p);
+				$gifs.prepend($gifDiv);
 			};
 			
 			$("img").click(function(){
 				var animatedURL = $(this).data();
-				console.log(animatedURL);
 				$(this).attr("src", animatedURL.animated);
 			});
 		});
