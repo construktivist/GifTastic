@@ -36,12 +36,16 @@ $(document).ready(function(){
 			console.log(results);
 			for(var i = 0; i < results.length; i++){
 				$img = $("<img>");
-				$img.attr("src", results[i].images.fixed_height.url);
+				$img.attr("src", results[i].images.fixed_height_small_still.url);
+				$img.attr("data-animated", results[i].images.fixed_height.url);
 				$gifs.prepend($img);
-
-
-
 			};
+			
+			$("img").click(function(){
+				var animatedURL = $(this).data();
+				console.log(animatedURL);
+				$(this).attr("src", animatedURL.animated);
+			});
 		});
 	});
 });
