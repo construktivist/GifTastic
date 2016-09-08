@@ -4,24 +4,25 @@ $(document).ready(function(){
 	var $gifs = $("#gifs");
 	var $form = $("#topic-form")
 	var playback = false;
+	
+	makeButtons();
 
 	$($form).submit(function(e){
 		e.preventDefault();
-		var $button = $("<button class='btn btn-secondary'>");
 		var inputText = $("#topic-input").val();
-		($button).text(inputText);
-		$button.attr("value", inputText);
-		$($buttons).append($button);
+		topics.push(inputText);
+		makeButtons();
 	});
 
-
-	for (var i = 0; i < topics.length; i++){
-		var $button = $("<button class='btn btn-secondary'>");
-		$button.text(topics[i]);
-		$button.attr("value", topics[i]);
-		$($buttons).append($button);
+	function makeButtons(){
+		for (var i = 0; i < topics.length; i++){
+			var $button = $("<button class='btn btn-secondary'>");
+			$button.text(topics[i]);
+			$button.attr("value", topics[i]);
+			$($buttons).append($button);
+		};
 	};
-
+		
 	$("button").click(function(){
 		console.log("click works");
 		var subject = $(this).text();
@@ -47,8 +48,19 @@ $(document).ready(function(){
 			};
 			
 			$("img").click(function(){
+				var stillURL = $(this).attr("src");
 				var animatedURL = $(this).data();
-				$(this).attr("src", animatedURL.animated);
+				console.log(stillURL);
+				console.log(animatedURL);
+				if (playback == false){
+					console.log("playback");
+					var playback = true;
+					$(this).attr("src", animatedURL.animated);
+				}
+				else{
+					var playback = false;
+					$(this).attr("src", stillURL);	
+				};
 			});
 		});
 	});
