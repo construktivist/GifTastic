@@ -49,7 +49,7 @@ $(document).ready(function(){
 				$img.attr("src", stillGif);
 				$img.attr("data-still", stillGif);
 				$img.attr("data-animated", animatedGif);
-				$img.attr("data-still", "still")
+				$img.attr("data-state", "still")
 				
 				$gifDiv.append($img);
 				$gifDiv.append($p);
@@ -59,8 +59,16 @@ $(document).ready(function(){
 			$("img").click(function(){
 				console.log("image click works")
 				var state = $(this).attr("data-state");
+				console.log(state);
+				if (state == "still"){
+					$(this).attr("src", animatedGif);
+					$(this).attr("data-state", "animate");
+				}
 
-
+				else{
+					$(this).attr("src", stillGif);
+					$(this).attr("data-state", "still");
+				}
 			});
 		});
 	});
