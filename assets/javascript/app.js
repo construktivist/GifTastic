@@ -7,23 +7,26 @@ $(document).ready(function(){
 	
 	makeButtons();
 
-	$($form).submit(function(e){
+	$form.submit(function(e){
 		e.preventDefault();
 		var inputText = $("#topic-input").val();
 		topics.push(inputText);
 		makeButtons();
+
 	});
 
 	function makeButtons(){
+		$buttons.empty();
 		for (var i = 0; i < topics.length; i++){
 			var $button = $("<button class='btn btn-secondary'>");
 			$button.text(topics[i]);
 			$button.attr("value", topics[i]);
 			$($buttons).append($button);
+			$form.trigger("reset");
 		};
 	};
 		
-	$("button").click(function(){
+	$buttons.on("click", "button", function(){
 		console.log("click works");
 		var subject = $(this).text();
 		console.log(subject);
@@ -37,31 +40,29 @@ $(document).ready(function(){
 			var results = response.data;
 			console.log(results);
 			for(var i = 0; i < results.length; i++){
+				var stillGif = results[i].images.fixed_height_small_still.url;
+				var animatedGif = results[i].images.fixed_height.url;
+				
 				$gifDiv = $("<div>");
 				$img = $("<img>");
-				$p = $("<p>Rating: " + results[i].rating + "</p>")
-				$img.attr("src", results[i].images.fixed_height_small_still.url);
-				$img.attr("data-animated", results[i].images.fixed_height.url);
+				$p = $("<p>Rating: " + results[i].rating + "</p>")	
+				$img.attr("src", stillGif);
+				$img.attr("data-still", stillGif);
+				$img.attr("data-animated", animatedGif);
+				$img.attr("data-still", "still")
+				
 				$gifDiv.append($img);
 				$gifDiv.append($p);
 				$gifs.prepend($gifDiv);
 			};
 			
 			$("img").click(function(){
-				var stillURL = $(this).attr("src");
-				var animatedURL = $(this).data();
-				console.log(stillURL);
-				console.log(animatedURL);
-				if (playback == false){
-					console.log("playback");
-					var playback = true;
-					$(this).attr("src", animatedURL.animated);
-				}
-				else{
-					var playback = false;
-					$(this).attr("src", stillURL);	
-				};
+				console.log("image click works")
+				var state = $(this).attr("data-state");
+
+
 			});
 		});
 	});
 });
+// });
